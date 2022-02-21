@@ -2,9 +2,9 @@
 
 ## 概要
 
-* あまり汎用的に作成していないため、雑な作りになっています。そのうち改良するかもしれません
-* Assume Roleする前提で作成しています
-  * Assume Rolle不要な環境では`ssh.ps1`の`--profile`の部分を消して、`~/.aws/credentials`に任意の名前でProfileを追記してから実行すればよいです
+Assume Roleを行ってからSSMを使用してSSHするスクリプトの実行方法についての説明です。  
+Assume Roleする前提で作成していますが、Assume Roleが不要な環境では`~/.aws/credentials`に任意の名前でProfileを追記してから実行すればよいです。  
+もしくは、`default`の設定だけ行って`ssh.ps1`の`--profile`の部分を消して実行してください。
 
 ## AWS CLIの設定
 
