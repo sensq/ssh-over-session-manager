@@ -4,7 +4,7 @@
 
 * あまり汎用的に作成していないため、雑な作りになっています。そのうち改良するかもしれません
 * Assume Roleする前提で作成しています
-  * Assume Rolle不要な環境では`ssh.ps1`の`--profile`の部分を消して実行すればよいです
+  * Assume Rolle不要な環境では`ssh.ps1`の`--profile`の部分を消して、`~/.aws/credentials`に任意の名前でProfileを追記してから実行すればよいです
 
 ## AWS CLIの設定
 
@@ -34,39 +34,25 @@ Host 任意のホスト名
 
 ## スクリプトの設定
 
-各種スクリプトの冒頭にある変数へ設定を記載します。
+`configs`ディレクトリの中に`template.ps1`ファイルを参考にして設定ファイルを作成してください。
 
-```ps1
-# assume_role.ps1
+## スクリプト実行
 
-$Env:AWS_ACCESS_KEY_ID = "**YOUR_AWS_ACCESS_KEY_ID**"
-$Env:AWS_SECRET_ACCESS_KEY = "**YOUR_AWS_SECRET_ACCESS_KEY**"
-$Env:AWS_DEFAULT_REGION = "**YOUR_AWS_DEFAULT_REGION**"
+以下の順番でスクリプトを実行します。  
+引数に指定した名前のconfigファイルを読み込んで実行します。  
+どちらのスクリプトも、問題なく実行完了したら「Done!」と出力されます。
 
-$ACCOUNT_ID = "**YOUR_ACCOUNT_ID**"  # AWSのアカウントID
-$ROLE_NAME = "**YOUR_ROLE_NAME**"  # AssumeRoleする先のRole名
-$PROFILE_NAME = "**YOUR_PROFILE_NAME**"  # 作成するプロファイル名
-```
-
-```ps1
-# ssh.ps1
-
-$INSTANCE_ID = "**YOUR_INSTANCE_ID**"  # 接続先のインスタンスのID
-$PROFILE = "**YOUR_PROFILE_NAME**"  # assume_role.ps1のPROFILE_NAMEに記載した値
-$INSTANCE_OS_USER = "ec2-user"  # 接続するユーザ名
-$SSH_KEY_NAME = "ssh_over_session_manager_key"  # キーの名前（基本的に固定でよい）
-```
-
-## スクリプト実行と接続
-
-以下の順番でスクリプトを実行します。
+以下は`configs`に`foo.ps1`という名前で作成した設定ファイルを読み込む場合の実行方法です。
 
 ```bash
 # OpsbearDeveloperRoleにAssumeRoleする
-assume_role.ps1
+.\scripts\windows\assume_role.ps1 foo
 # SSH用の鍵を置く
-ssh.ps1
+.\scripts\windows\ssh.ps1 foo
 ```
 
-VSCodeのリモートエクスプローラー（サイドメニューにある）をクリックし、そこから対象のホスト名を選択して接続します。
+## 接続
 
+VSCodeのリモートエクスプローラー（サイドメニューにある）をクリックし、そこから対象のホスト名を選択して接続します。  
+`ssh.ps1`で配置したキーは1分間しか使用できないため、1分以内に接続してください。  
+1分を過ぎてしまった場合は再度`ssh.ps1`を実行してから接続してください。
