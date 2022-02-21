@@ -6,6 +6,11 @@ WindowsからEC2インスタンスへセッションマネージャ経由でのS
 基本的には以下のページと同様の内容です。  
 https://dev.classmethod.jp/articles/ssh-through-session-manager/
 
+具体的なスクリプトの実行方法は以下のページを参照してください。  
+現場ではWindowsでの方法のみ記載しています。
+
+* [Windows](./scripts/windows/README.md)
+
 ## [前提知識]多段SSH
 
 直接アクセスできないサーバへ踏み台を経由してSSHする際に使用する方法です。  
