@@ -7,9 +7,9 @@ WindowsからEC2インスタンスへセッションマネージャ経由でのS
 https://dev.classmethod.jp/articles/ssh-through-session-manager/
 
 具体的なスクリプトの実行方法は以下のページを参照してください。  
-現場ではWindowsでの方法のみ記載しています。
+現状ではWindowsでの方法のみ記載しています。
 
-* [Windows](./scripts/windows)
+* [Windowsでのスクリプト実行方法](./scripts/windows)
 
 ## [前提知識]多段SSH
 
@@ -30,8 +30,8 @@ ProxyCommandを設定するとダイレクトにSSHしているかのように�
 
 ## [前提知識]セッションマネージャの仕組み
 
-Systems Managerのエンドポイントに対してインスタンス（SSMエージェント）がポーリングしており、エンドポイントに`start-session`の命令を行うとインスタンスへの接続が確立します。  
-パブリックIPを持っていないSSHのポートも公開していないインスタンスに接続することができ、セキュアな運用を行えるメリットがあります。  
+Systems Managerのエンドポイントに対してインスタンス（SSMエージェント）がポーリングしているらしく、エンドポイントに`start-session`の命令を行うとインスタンスへの接続が確立します。  
+パブリックIPを持っていないSSHのポートも公開していないインスタンスにも接続することができ、セキュアな運用を行えるメリットがあります。  
 ただし、ファイルの送受信が行えないなど、いくつかのデメリットが存在します。  
 ※AWS CLIを使う場合は、ローカルにAWS CLIとセッションマネージャプラグインを入れておく必要あり
 
@@ -66,16 +66,18 @@ Systems Managerのエンドポイントに対してインスタンス（SSMエ�
 * ローカルにSSHを行えるクライアントを用意しておく
 * ローカルにAWS CLIをインストールしておく
 * ローカルにセッションマネージャプラグインをインストールしておく
+* 接続先にセッションマネージャAgentをインストールしてサービスとして起動しておく
+    * Amazon Linux 2の場合はデフォルトでインストール済み
 * IAM Userにアクセスキーを作っておく
-    * AWS CLIを使うために必須
+    * ローカル環境でAWS CLIを使うために必須
 * **ローカルにSSHキーを管理しておく**
     * 下記の方法で排除可能
 
 ### SSH Configの書き方
 
-事前にWindowsにAWS CLIとセッションマネージャをインストールし、`aws ssm start-session`を使ってインスタンスへ接続できることを確認しておいてください。
+事前にローカル環境へAWS CLIとセッションマネージャをインストールし、`aws ssm start-session`を使ってインスタンスへ接続できることを確認しておいてください。
 
-```
+```text
 Host YOUR_INSTANCE_ID
     HostName YOUR_INSTANCE_ID
     IdentityFile ~\.ssh\ssh_over_session_manager_key
