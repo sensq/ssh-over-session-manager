@@ -9,7 +9,7 @@ https://dev.classmethod.jp/articles/ssh-through-session-manager/
 具体的なスクリプトの実行方法は以下のページを参照してください。  
 現状ではWindowsでの方法のみ記載しています。
 
-* [Windowsでのスクリプト実行方法](./scripts/windows)
+[Windowsでのスクリプト実行方法](./scripts/windows)
 
 ## [前提知識]多段SSH
 
