@@ -2,9 +2,8 @@
 
 ## 概要
 
-Assume Roleを行ってからSSMを使用してSSHするスクリプトの実行方法についての説明です。  
-Assume Roleする前提で作成していますが、Assume Roleが不要な環境では`~/.aws/credentials`に任意の名前でProfileを追記してから実行すればよいです。  
-もしくは、`default`の設定だけ行って`ssh.ps1`の`--profile`の部分を消して実行してください。
+Assume Roleを行ってからセッションマネージャを使用してSSHするスクリプトの実行方法についての説明です。  
+Assume Roleが不要な環境では`~/.aws/credentials`に任意の名前でProfileを追記してから実行してください。
 
 ## AWS CLIの設定
 
@@ -19,7 +18,7 @@ region = ap-northeast-1
 
 ## ローカルからSSHするための設定
 
-ローカルのSSHConfigに以下を書いておいてください。  
+ローカルのSSHConfigに以下を記載しておいてください。  
 ファイルのパスは基本的には`~/.ssh/config`で、このファイルに記載したホストがVSCodeのリモートエクスプローラーの`SSH TARGETS`に表示されます。
 
 ```text
