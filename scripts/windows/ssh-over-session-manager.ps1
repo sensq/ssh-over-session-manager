@@ -48,12 +48,12 @@ if ($USE_ASSUME_ROLE){
 
 # 自動起動
 if ($ENABLE_START_INSTANCE){
-    $INSTANCE_STATE = $(aws ec2 describe-instances --instance-ids i-06eec0d354d8429b1 --query "Reservations[].Instances[].State.Name" --output text)
+    $INSTANCE_STATE = $(aws ec2 describe-instances --instance-ids ${INSTANCE_ID} --query "Reservations[].Instances[].State.Name" --output text --profile ${PROFILE})
     if ($INSTANCE_STATE -eq "stopped"){
         Write-Host -ForegroundColor yellow "Try Start Instance..."
         try{
-            aws ec2 start-instances --instance-ids ${INSTANCE_ID} | Out-Null
-            aws ec2 wait instance-running --instance-ids ${INSTANCE_ID}
+            aws ec2 start-instances --instance-ids ${INSTANCE_ID} --profile ${PROFILE} | Out-Null
+            aws ec2 wait instance-running --instance-ids ${INSTANCE_ID} --profile ${PROFILE}
         }
         catch{
             Write-Host -ForegroundColor red $_
