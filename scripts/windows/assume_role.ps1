@@ -27,5 +27,6 @@ $ASSUME_AWS_SECRET_ACCESS_KEY = echo $ASSUME_ROLE_TMP | jq -r ".Credentials.Secr
 aws configure set aws_access_key_id ${ASSUME_AWS_ACCESS_KEY_ID} --profile ${PROFILE}
 aws configure set aws_secret_access_key ${ASSUME_AWS_SECRET_ACCESS_KEY} --profile ${PROFILE}
 aws configure set aws_session_token ${ASSUME_AWS_SESSION_TOKEN} --profile ${PROFILE}
+aws configure set region ${Env:AWS_DEFAULT_REGION} --profile ${PROFILE}
 
 Write-Host -ForegroundColor green Done!

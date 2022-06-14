@@ -5,20 +5,41 @@
 Assume Roleを行ってからセッションマネージャを使用してSSHするスクリプトの実行方法についての説明です。  
 Assume Roleが不要な環境では`~/.aws/credentials`に任意の名前でProfileを追記してから実行してください。
 
-## AWS CLIの設定
+## AWS CLIのインストールと動作確認
 
-Region設定をしていないといけないようなので、Regionだけ記載しておいてください。  
-あまり調べきれていないので詳細は不明。
+### AWS CLIのインストール
 
-```text
-# ~\.aws\config に以下を記載
-[default]
-region = ap-northeast-1
+省略
+
+### セッションマネージャプラグインのインストール
+
+省略  
+インストール後はパスを反映させるためにサインアウトや再起動が必要です。
+
+### IAM Userの作成とアクセスキーの生成
+
+省略  
+最低限必要なポリシーは未調査
+
+### AWS CLIの動作確認
+
+`aws configure`コマンドを使って上記のアクセスキーとシークレットアクセスキーを設定し、以下のコマンドを実行してください。  
+アカウントIDやIAM UserのARNが出力されたら正常に動作しています。
+
+```bash
+aws sts get-caller-identity
+```
+
+※補足：Proxy環境下の場合  
+以下の環境変数を設定しておく必要があります。  
+
+```bash
+$Env:HTTPS_PROXY = "ProxyのURL"
 ```
 
 ## ローカルからSSHするための設定
 
-ローカルのSSHConfigに以下を記載しておいてください。  
+ローカルのSSHConfigに以下を記載してください。  
 ファイルのパスは基本的には`~/.ssh/config`で、このファイルに記載したホストがVSCodeのリモートエクスプローラーの`SSH TARGETS`に表示されます。
 
 ```text
@@ -39,7 +60,16 @@ Host 作業用インスタンス
     ProxyCommand aws ssm start-session --target %h --document-name AWS-StartSSHSession --region ap-northeast-1 --profile FooRole
 ```
 
-## スクリプトの設定
+※補足：Proxy環境下の場合  
+VSCodeの`settings.json`に以下のような環境変数の設定を記載しておく必要があります。
+
+```json
+"terminal.integrated.env.windows": {
+    "https_proxy": "ProxyのURL"
+}
+```
+
+## スクリプトの設定ファイル作成
 
 `configs`ディレクトリの中の[template.ps1](./configs/template.ps1)ファイルを参考にして設定ファイルを作成してください。
 
@@ -77,6 +107,12 @@ Host 作業用インスタンス
 ```bash
 .\scripts\windows\ssh-over-session-manager.ps1 -l
 ```
+
+### スクリプト実行後の補足
+
+スクリプト内で`aws configure`を実行し、`~/.aws/config`および`~/.aws.credentials`に設定を生成しています。  
+この設定はコマンドでの削除が行えないため、不要になったものは手動で削除をしてください。  
+なお、同じプロファイルが重複して記載されることはありません（スクリプトの設定ファイルで異なる設定の同名のプロファイルを記載して実行した場合は上書きされます）
 
 ## 接続
 

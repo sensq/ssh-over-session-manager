@@ -44,6 +44,10 @@ if (![string]::IsNullOrEmpty(${ARGS}[0])){
 if ($USE_ASSUME_ROLE){
     Write-Host -ForegroundColor yellow "Try AssumeRole..."
     . ./assume_role.ps1 ${TARGET}
+} else {
+    aws configure set aws_access_key_id ${Env:AWS_ACCESS_KEY_ID} --profile ${PROFILE}
+    aws configure set aws_secret_access_key ${Env:AWS_SECRET_ACCESS_KEY} --profile ${PROFILE}
+    aws configure set region ${Env:AWS_DEFAULT_REGION} --profile ${PROFILE}
 }
 
 # 自動起動
