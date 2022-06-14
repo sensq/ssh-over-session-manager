@@ -2,8 +2,7 @@
 
 ## 概要
 
-Assume Roleを行ってからセッションマネージャを使用してSSHするスクリプトの実行方法についての説明です。  
-Assume Roleが不要な環境では`~/.aws/credentials`に任意の名前でProfileを追記してから実行してください。
+WindowsでAWS CLIを使用してセッションマネージャ経由でVSCodeからリモートSSHする方法の説明です。
 
 ## AWS CLIのインストールと動作確認
 
